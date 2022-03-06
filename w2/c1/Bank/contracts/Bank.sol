@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 
 contract Bank {
+    using SafeMath for uint;
     mapping(address => uint) public balances;
     
     event Deposit(address _from, uint _value);
@@ -38,13 +39,13 @@ contract Bank {
     }
 
     function deposit() payable public {
-        balances[msg.sender] += msg.value;
+        balances[msg.sender] = balances[msg.sender].add(msg.value);
         console.log("Money saved: %s", msg.value);
         emit Deposit(msg.sender, msg.value);
     }
 
     receive() payable external  {
-        balances[msg.sender] += msg.value;
+        balances[msg.sender] = balances[msg.sender].add(msg.value);
         console.log("Money saved: %s", msg.value);
         emit Deposit(msg.sender, msg.value);
     }
@@ -62,7 +63,7 @@ contract Bank {
         console.log("total : %s", mAddress.balance);
         require(balances[to] >= value, "Account Insufficient funds");
         require(mAddress.balance >= value, "Contract Insufficient funds");
-        balances[to] -= value;
+        balances[to] = balances[to].sub(value);
         to.transfer(value);
         console.log("Money withdrawn %s", value);
         emit Withdraw(msg.sender, value);
