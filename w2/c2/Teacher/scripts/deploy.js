@@ -15,12 +15,20 @@ async function main() {
 
   // We get the contract to deploy
 
-  const Contract = await hre.ethers.getContractFactory("Bank");
-  const contract = await Contract.deploy();
+  let contractList = [
+    "Teacher",
+    "Scores"
+  ]
+  for (let contractName of contractList) {
+    // let contract = await hre.ethers.getContract(contractName);
+    const Contract = await hre.ethers.getContractFactory(contractName);
+    const contract = await Contract.deploy();
 
-  await contract.deployed();
-
-  console.log("Contract deployed to:", contract.address);
+    await contract.deployed();
+  
+    console.log(`Contract ${contractName} deployed to:`, contract.address);
+  }
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere
