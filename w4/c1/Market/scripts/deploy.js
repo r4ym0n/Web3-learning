@@ -14,32 +14,13 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  async function deployContract() {
-    let contractList = [
-      "Mytoken",
-      "Vault"
-    ]
-    let contracts = {}
-    for (let contractName of contractList) {
-      // let contract = await hre.ethers.getContract(contractName);
-      const Contract = await hre.ethers.getContractFactory(contractName);
-      let contract;
-      if (contractName == "Vault") {
-        params = [contracts.Mytoken.address]
-        console.log(params);
-        contract = await Contract.deploy(params);
-      } else {
-        contract = await Contract.deploy();
-      }
 
-      await contract.deployed();
-      console.log(`Contract ${contractName} deployed to:`, contract.address);
-      contracts[contractName] = contract;
-    }
-    return contracts;
-  }
-  let contracts = await deployContract();
+  const Contract = await hre.ethers.getContractFactory("Bank");
+  const contract = await Contract.deploy();
 
+  await contract.deployed();
+
+  console.log("Contract deployed to:", contract.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

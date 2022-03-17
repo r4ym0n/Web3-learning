@@ -15,7 +15,7 @@ async function main() {
     [owner, second] = await hre.ethers.getSigners();
     
     
-    let contractAddr = "0x36733Ec72b5782a8CDc41F7aC06146FfCF36cf2A"
+    let contractAddr = "0xf56A2C5F452c116EaEc72d5090e857F2835010b2"
     bank = await hre.ethers.getContractAt("Bank", contractAddr, owner);
 
     console.log("contract owner:", await bank._owner());

@@ -13,9 +13,9 @@ function App() {
     function initWeb3() {
       // this is a hack to get around the fact that the Metamask injected web3
       if (typeof window.ethereum !== 'undefined') {
-        // const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
         console.log("web3 already injected");
-        const provider = new ethers.providers.JsonRpcProvider({url: "http://localhost:8545"});
+        // const provider = new ethers.providers.JsonRpcProvider({url: "http://localhost:8545"});
         window.web3 = provider;
         setWeb3(provider);
 

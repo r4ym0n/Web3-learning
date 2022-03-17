@@ -6,22 +6,23 @@
 const hre = require("hardhat");
 
 async function main() {
-    if (hre.network.name !== "goerli") {
-        console.log("This script is only for the goerli network");
+    if (hre.network.name !== "localhost") {
+        console.log("This script is only for the hardhat network");
         process.exit(1);
     }
-    const {phrase: mnemonic} = require("../account/mnemonic.json")
-    let wallet = hre.ethers.Wallet.fromMnemonic(mnemonic);
-    [owner, second] = await hre.ethers.getSigners();
     
-    
-    let contractAddr = "0x36733Ec72b5782a8CDc41F7aC06146FfCF36cf2A"
+    console.log("owner:", owner.address);
+    console.log("second:", second.address);
+    let contractAddr = "0xD84379CEae14AA33C123Af12424A37803F885889"
     bank = await hre.ethers.getContractAt("Bank", contractAddr, owner);
 
     console.log("contract owner:", await bank._owner());
 
     console.log("bank value:", await bank.getBalance(), await owner.getBalance());
     await bank.deposit({value: 1000000, from: owner.address});
+    console.log("deposit: ", await bank.getBalance(), await owner.getBalance());
+    
+    await bank.deposit({value: 1000000, from: second.address});
     console.log("deposit: ", await bank.getBalance(), await owner.getBalance());
     
     // await owner.sendTransaction({to: contractAddr, value: 1000000});
